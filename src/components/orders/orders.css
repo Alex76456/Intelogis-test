@@ -1,0 +1,92 @@
+.ordersBody {
+  overflow-x: auto;
+  white-space: nowrap;
+  background: #fff;
+  margin: 0;
+  width: 100%;
+  border-radius: 4px 0 4px 0;
+}
+
+.ordersTable {
+  overflow: visible;
+  min-width: 400px;
+  min-height: 70vh;
+}
+
+.row {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 4px;
+}
+
+.activeRow {
+  background: rgba(75, 168, 230, 0.9);
+  color: white;
+}
+
+.points {
+  margin-top: 15px;
+
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdownList {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdownList > *:last-child {
+  margin-left: 5px;
+}
+
+.pointCoords {
+  cursor: pointer;
+}
+
+.saveIcons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 50px;
+}
+
+.deliveryPoints > ul {
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
+.editIcon {
+  transition: 0.3s ease;
+}
+
+.editIcon:hover {
+  transform: scale(1.1);
+}
+
+.isEdit {
+  color: #007bff;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.isEdit:hover {
+  transform: scale(1.01);
+  opacity: 0.9;
+  text-decoration: underline;
+}
+
+.spanText {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.pointWrapper {
+  display: flex;
+  gap: 5px;
+}

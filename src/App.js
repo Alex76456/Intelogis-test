@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import "./app.css"
+import { Resizable } from "re-resizable"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
-function App() {
+import { LoadingOutlined } from "@ant-design/icons"
+import { Spin } from "antd"
+import { getErrorSelector, getPendingOrdersSelector } from "./store/orders/selectors"
+
+import { Map } from "./components/map/map"
+import { Orders } from "./components/orders/orders"
+import { fetchOrdersOrder } from "./store/orders/actions"
+
+const App = () => {
+  const dispatch = useDispatch()
+
+  const pendingOrders = useSelector(getPendingOrdersSelector)
+  const error = useSelector(getErrorSelector)
+
+  const antIcon = <LoadingOutlined spin />
+
+  useEffect(() => {
+    dispatch(fetchOrdersOrder())
+  }, [dispatch])
+
+  if (error) {
+    return <h1>{error}</h1>
+  }
+
+  if (pendingOrders) {
+    return (
+      <div>
+        <Spin indicator={antIcon} size="large" />
+      </div>
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="orderPage">
+      {/* Resizable позволяет изменять ширину Orders */}
+
+      <Resizable
+        grid={[1, 0]}
+        minWidth={200}
+        defaultSize={{
+          width: 450,
+        }}
+      >
+        <Orders />
+      </Resizable>
+
+      <Map />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
