@@ -6,3 +6,10 @@ body {
   min-height: 100vh;
   color: #fff;
 }
+
+.orderPage {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  min-height: 70vh;
+  width: 100%;
+}
