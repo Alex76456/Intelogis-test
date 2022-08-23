@@ -1,4 +1,3 @@
-import "./app.css"
 import { Resizable } from "re-resizable"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
