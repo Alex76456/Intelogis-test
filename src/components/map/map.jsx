@@ -41,11 +41,17 @@ export const Map = () => {
     }
   }, [order, dispatch])
 
-  const renderPositions = (index) => {
+  const renderPositions = (index, item) => {
     if (positions.length < 1) {
       return null
     }
-    return <Polyline pathOptions={lineOptions} positions={positions[index]} />
+    return (
+      <Polyline
+        key={`line_${item.fromCoords.Lat}${item.fromCoords.Lng}${item.toCoords.Lat}${item.toCoords.Lng}`}
+        pathOptions={lineOptions}
+        positions={positions[index]}
+      />
+    )
   }
 
   function FlyToCenterMarker() {
@@ -84,16 +90,24 @@ export const Map = () => {
 
           {order?.points.map((item, index) => {
             return (
-              <div>
-                <Marker position={[item.fromCoords.Lat, item.fromCoords.Lng]} icon={pointIcon}>
+              <div key={`${item.fromCoords.Name}->${item.toCoords.Name}`}>
+                <Marker
+                  key={`${item.fromCoords.Lat}${item.fromCoords.Lng}`}
+                  position={[item.fromCoords.Lat, item.fromCoords.Lng]}
+                  icon={pointIcon}
+                >
                   <Popup>{item.fromCoords.Name}</Popup>
                 </Marker>
 
-                <Marker position={[item.toCoords.Lat, item.toCoords.Lng]} icon={pointIcon}>
+                <Marker
+                  key={`${item.toCoords.Lat}${item.toCoords.Lng}`}
+                  position={[item.toCoords.Lat, item.toCoords.Lng]}
+                  icon={pointIcon}
+                >
                   <Popup>{item.toCoords.Name}</Popup>
                 </Marker>
 
-                {renderPositions(index)}
+                {renderPositions(index, item)}
               </div>
             )
           })}

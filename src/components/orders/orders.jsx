@@ -164,7 +164,7 @@ const Orders = () => {
 
   const renderPointCoords = (pointCoord, isEdit) => {
     return (
-      <p className={isEdit && "isEdit"}>
+      <p key={`point_${pointCoord.Lat}_${pointCoord.Lng}`} className={isEdit && "isEdit"}>
         <span className="spanText">{pointCoord.Name}</span> ({pointCoord.Lat}, {pointCoord.Lng})
       </p>
     )
@@ -201,7 +201,7 @@ const Orders = () => {
 
   const renderPoint = (order, point) => {
     return (
-      <div className="points">
+      <div key={`${order.id}_${point.id}`} className="points">
         <div>{order._id === editingOrder?._id ? renderEditPoint(editingPoint || point) : renderPointsRow(point)}</div>
 
         {renderPointOperations(order)}
