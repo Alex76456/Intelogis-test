@@ -39,13 +39,39 @@ const App = () => {
       {/* Resizable позволяет изменять ширину Orders */}
 
       <Resizable
+        style={{ borderRight: "10px solid #007bff" }}
         grid={[1, 0]}
-        minWidth={200}
+        minWidth={250}
+        maxWidth={"80vw"}
         defaultSize={{
-          width: 450,
+          width: "100vh",
+        }}
+        enable={{
+          top: false,
+          right: true,
+          bottom: false,
+          left: false,
+          topRight: false,
+          bottomRight: false,
+          bottomLeft: false,
+          topLeft: false,
         }}
       >
-        <Orders />
+        <Resizable
+          grid={[0, 1]}
+          enable={{
+            top: false,
+            right: false,
+            bottom: false,
+            left: false,
+            topRight: false,
+            bottomRight: false,
+            bottomLeft: false,
+            topLeft: false,
+          }}
+        >
+          <Orders />
+        </Resizable>
       </Resizable>
 
       <Map />
