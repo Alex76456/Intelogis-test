@@ -213,15 +213,29 @@ const Orders = () => {
 
   const columns = [
     {
-      title: "Список заявок",
+      title: "Заявка",
       dataIndex: "name",
       key: "name",
-      isEditable: true,
       render: (item, record) => (
-        <div className={record._id === selectedOrder?._id ? "row activeRow" : "row"}>
+        <div /*className={record._id === selectedOrder?._id ? "row activeRow" : "row"}*/>
           {item}
 
-          {record._id === selectedOrder?._id && renderPoints(record)}
+          {/* {record._id === selectedOrder?._id && renderPoints(record)} */}
+        </div>
+      ),
+      width: 200,
+    },
+
+    {
+      title: "Точки",
+      dataIndex: "points",
+      key: "points",
+      width: 400,
+      render: (item, record) => (
+        <div /*className={record._id === selectedOrder?._id ? "row activeRow" : "row"}*/>
+          {/* {item} */}
+          {renderPoints(record)}
+          {/* {record._id === selectedOrder?._id && renderPoints(record)} */}
         </div>
       ),
     },
@@ -236,15 +250,17 @@ const Orders = () => {
         </Result>
       ) : null}
 
+      <h1 className="title">Список заказов</h1>
+
       <Table
-        className="ordersTable"
+        bordered
+        rowClassName={(record, index) => (record._id === selectedOrder?._id ? "row activeRow" : "row")}
         dataSource={orders.map(converterData)}
         columns={columns}
-        pagination={{ position: [] }}
+        // pagination={{ position: ["topRight "] }}
         onRow={(record) => handleOnRow(record)}
       />
     </div>
   )
 }
-
 export { Orders }

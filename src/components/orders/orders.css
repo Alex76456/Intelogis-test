@@ -11,21 +11,23 @@
 .ordersTable {
   overflow: visible;
   min-width: 400px;
-  min-height: 70vh;
+  height: 70vh;
 }
 
 .row {
-  padding: 10px;
+  /* height: 100%;
+  padding: 10px; */
   cursor: pointer;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 4px;
+  border-radius: 4px; */
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .activeRow {
   background: rgba(75, 168, 230, 0.9);
-  color: white;
+  /* color: white; */
 }
 
 .points {
@@ -90,4 +92,8 @@
 .pointWrapper {
   display: flex;
   gap: 5px;
+}
+
+.title {
+  text-align: center;
 }
