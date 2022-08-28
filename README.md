@@ -12,6 +12,7 @@
 
 ## Используемые технологии
 
+- TypeScript
 - React
 - Redux
 - Redux-saga
