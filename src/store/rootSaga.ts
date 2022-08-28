@@ -4,6 +4,6 @@ import ordersSaga from "./orders/sagas"
 import mapSaga from "./map/sagas"
 
 //корневая сага
-export function* rootSaga() {
+export function* rootSaga(): any {
   yield all([fork(ordersSaga), fork(deliveryPointsSaga), fork(mapSaga)])
 }

@@ -33,7 +33,7 @@ export interface IOrder {
 
 export interface OrdersState {
   pendingOrders: boolean
-  requests: IOrder[]
+  orders: IOrder[]
   selectedOrder: IOrder | null
   editingOrder: IOrder | null
   editingPoint: IPoint | null
@@ -41,7 +41,7 @@ export interface OrdersState {
 }
 
 export interface FetchOrdersSuccessPayload {
-  requests: IOrder[]
+  orders: IOrder[]
 }
 
 export interface FetchOrdersFailurePayload {

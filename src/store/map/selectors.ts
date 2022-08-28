@@ -1,11 +1,12 @@
 import { createSelector } from "reselect"
+import { AppState } from "../rootReducer"
 
-const getPendingMap = (state) => state.map.pendingMap
+const getPendingMap = (state: AppState) => state.map.pendingMap
 
-const getPositions = (state) => state.map.positions
+const getPositions = (state: AppState) => state.map.positions
 
-const getPointsCenter = (state) => state.map.pointsCenter
-const getError = (state) => state.map.error
+const getPointsCenter = (state: AppState) => state.map.pointsCenter
+const getError = (state: AppState) => state.map.error
 
 export const getPositionsSelector = createSelector(getPositions, (positions) => positions)
 export const getPendingMapSelector = createSelector(getPendingMap, (pending) => pending)

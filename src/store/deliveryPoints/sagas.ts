@@ -1,10 +1,12 @@
 import { all, call, put, takeEvery } from "redux-saga/effects"
 
+import { ICoord } from "../orders/types"
+
 import { fetchDeliveryPointsFailure, fetchDeliveryPointsSuccess } from "./actions"
 import { FETCH_DELIVERYPOINTS_REQUEST } from "./constants"
 
 // мокк
-const getDeliveryPoints = () => [
+const getDeliveryPoints = (): ICoord[] => [
   {
     _id: 1,
     Lat: 59.93559,
@@ -64,7 +66,7 @@ const getDeliveryPoints = () => [
   },
 ]
 
-function* fetchDeliveryPointsSaga() {
+function* fetchDeliveryPointsSaga(): any {
   try {
     const response = yield call(getDeliveryPoints)
     yield put(
@@ -72,7 +74,7 @@ function* fetchDeliveryPointsSaga() {
         deliveryPoints: response,
       }),
     )
-  } catch (e) {
+  } catch (e: any) {
     // ловим ошибку
     yield put(
       fetchDeliveryPointsFailure({

@@ -12,7 +12,9 @@ import {
   EDIT_ORDERS_SUCCESS,
 } from "./constants"
 
-const initialState = {
+import { OrdersActions, OrdersState } from "./types"
+
+const initialState: OrdersState = {
   pendingOrders: false,
   orders: [],
   selectedOrder: null,
@@ -21,7 +23,7 @@ const initialState = {
   error: null,
 }
 
-const ordersReducer = (state = initialState, action) => {
+const ordersReducer = (state = initialState, action: OrdersActions) => {
   switch (action.type) {
     case FETCH_ORDERS_REQUEST:
       return {

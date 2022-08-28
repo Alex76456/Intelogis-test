@@ -11,7 +11,7 @@ import {
   getPointsCenterSelector,
   getPositionsSelector,
 } from "../../store/map/selectors"
-import { fetchPositionsOrder } from "../../store/map/actions"
+import { fetchPositionsRequest } from "../../store/map/actions"
 
 import { LatLngExpression } from "leaflet"
 
@@ -41,7 +41,7 @@ export const Map: React.FC = () => {
   // запрашиваем данные при изменении текущего заказа
   useEffect(() => {
     if (order !== null) {
-      dispatch(fetchPositionsOrder())
+      dispatch(fetchPositionsRequest())
     }
   }, [order, dispatch])
 

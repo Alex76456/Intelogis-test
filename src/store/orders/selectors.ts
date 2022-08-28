@@ -1,11 +1,13 @@
 import { createSelector } from "reselect"
 
-const getPendingOrders = (state) => state.orders.pendingOrders
-const getOrders = (state) => state.orders.orders
-const getSelectedOrder = (state) => state.orders.selectedOrder
-const getEditingOrder = (state) => state.orders.editingOrder
-const getEditingPoint = (state) => state.orders.editingPoint
-const getError = (state) => state.orders.error
+import { AppState } from "../rootReducer"
+
+const getPendingOrders = (state: AppState) => state.orders.pendingOrders
+const getOrders = (state: AppState) => state.orders.orders
+const getSelectedOrder = (state: AppState) => state.orders.selectedOrder
+const getEditingOrder = (state: AppState) => state.orders.editingOrder
+const getEditingPoint = (state: AppState) => state.orders.editingPoint
+const getError = (state: AppState) => state.orders.error
 
 export const getOrdersSelector = createSelector(getOrders, (orders) => orders)
 export const getSelectedOrderSelector = createSelector(getSelectedOrder, (order) => order)

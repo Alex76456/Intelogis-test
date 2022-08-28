@@ -8,7 +8,7 @@ import { EditOutlined, CheckOutlined, StopOutlined } from "@ant-design/icons"
 import { editPoint, editOrder, editOrders, selectOrder } from "../../store/orders/actions"
 
 import { getDeliveryPointsSelector } from "../../store/deliveryPoints/selectors"
-import { fetchDeliveryPointsOrder } from "../../store/deliveryPoints/actions"
+import { fetchDeliveryPointsRequest } from "../../store/deliveryPoints/actions"
 
 import { ICoord, IPoint, IOrder } from "../../store/orders/types"
 
@@ -42,7 +42,7 @@ const Orders = () => {
 
   // запрашиваем данные при монтировании компонента
   useEffect(() => {
-    dispatch(fetchDeliveryPointsOrder())
+    dispatch(fetchDeliveryPointsRequest())
   }, [dispatch])
 
   // handleOnSelectItem и handleOnRow  выбираем заявку

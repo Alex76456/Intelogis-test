@@ -8,8 +8,10 @@ import {
 } from "./actions"
 import { EDIT_ORDERS_COMMAND, EDIT_ORDER_COMMAND, FETCH_ORDERS_REQUEST, SELECT_ORDER_QUERY } from "./constants"
 
+import { IOrder } from "./types"
+
 // мокк
-const getOrders = () => {
+const getOrders = (): IOrder[] => {
   return [
     {
       _id: 1,
@@ -77,7 +79,7 @@ const getOrders = () => {
   ]
 }
 
-function* fetchOrdersSaga() {
+function* fetchOrdersSaga(): any {
   try {
     const response = yield call(getOrders)
     yield put(
@@ -85,7 +87,7 @@ function* fetchOrdersSaga() {
         orders: response,
       }),
     )
-  } catch (e) {
+  } catch (e: any) {
     // ловим ошибку
     yield put(
       fetchOrdersFailure({

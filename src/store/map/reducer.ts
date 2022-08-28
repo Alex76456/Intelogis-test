@@ -1,6 +1,8 @@
 import { FETCH_POSITIONS_REQUEST, FETCH_POSITIONS_SUCCESS, FETCH_POSITIONS_FAILURE } from "./constants"
 
-const initialState = {
+import { PositionsActions, PositionsState } from "./types"
+
+const initialState: PositionsState = {
   pendingMap: false,
   positions: [],
   pointsCenter: {
@@ -9,7 +11,7 @@ const initialState = {
   },
   error: null,
 }
-const mapReducer = (state = initialState, action) => {
+const mapReducer = (state = initialState, action: PositionsActions) => {
   switch (action.type) {
     case FETCH_POSITIONS_REQUEST:
       return {

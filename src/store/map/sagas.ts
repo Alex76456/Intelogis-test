@@ -4,12 +4,16 @@ import { getSelectedOrderSelector } from "../orders/selectors"
 import { fetchPositionsFailure, fetchPositionsSuccess } from "./actions"
 import { FETCH_POSITIONS_REQUEST } from "./constants"
 
-const getPositions = async (order) => {
-  const positions = []
-  const promises = []
+import { LatLngExpression } from "leaflet"
+
+import { ICoord, IOrder } from "../orders/types"
+
+const getPositions = async (order: IOrder) => {
+  const positions: LatLngExpression[][] = []
+  const promises: Promise<any>[] = []
   order?.points.forEach((item) => {
     promises.push(
-      getPositionsByCoords(item.fromCoords, item.toCoords).then((result) => {
+      getPositionsByCoords(item.fromCoords, item.toCoords).then((result: any) => {
         if (result !== null && result !== undefined) {
           positions.push(result)
         }
@@ -21,7 +25,7 @@ const getPositions = async (order) => {
   return positions
 }
 
-const getPositionsByCoords = async (coords1, coords2) => {
+const getPositionsByCoords = async (coords1: ICoord, coords2: ICoord) => {
   return fetch(
     `https://open.mapquestapi.com/directions/v2/route?key=OGKs8XqfDZOzlWoOMXrlCJ4vk8298kVz&from=${coords1.Lat},${coords1.Lng}&to=${coords2.Lat},${coords2.Lng}`,
     {
@@ -31,13 +35,13 @@ const getPositionsByCoords = async (coords1, coords2) => {
   ).then((response) => {
     if (response.ok) {
       return response.json().then((result) => {
-        const positions = []
+        const positions: LatLngExpression[][] = []
         if (result.info && result.info.statuscode !== 0) {
           return null
         }
 
-        result.route.legs.forEach((leg) => {
-          leg.maneuvers.forEach((maneuver) => {
+        result.route.legs.forEach((leg: any) => {
+          leg.maneuvers.forEach((maneuver: any) => {
             positions.push(maneuver.startPoint)
           })
         })
@@ -47,7 +51,7 @@ const getPositionsByCoords = async (coords1, coords2) => {
   })
 }
 
-const getPointsCenter = (order) => {
+const getPointsCenter = (order: IOrder) => {
   if (order === null || order?.points === null || order?.points.length < 1) {
     return undefined
   }
@@ -58,7 +62,7 @@ const getPointsCenter = (order) => {
   }
 }
 
-function* fetchPositionsSaga() {
+function* fetchPositionsSaga(): any {
   try {
     const order = yield select(getSelectedOrderSelector)
     if (order === null) {
@@ -69,8 +73,8 @@ function* fetchPositionsSaga() {
       )
     }
 
-    const response = yield call(getPositions, order)
-    const pointsCenter = getPointsCenter(order)
+    const response = yield call(getPositions, order as IOrder)
+    const pointsCenter = getPointsCenter(order as IOrder)
 
     if (response !== null && response.length > 0) {
       yield put(
@@ -86,7 +90,7 @@ function* fetchPositionsSaga() {
         }),
       )
     }
-  } catch (e) {
+  } catch (e: any) {
     // ловим ошибку
     yield put(
       fetchPositionsFailure({

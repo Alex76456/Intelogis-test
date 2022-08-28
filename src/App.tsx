@@ -8,7 +8,7 @@ import { getErrorSelector, getPendingOrdersSelector } from "./store/orders/selec
 
 import { Map } from "./components/map/map"
 import { Orders } from "./components/orders/orders"
-import { fetchOrdersOrder } from "./store/orders/actions"
+import { fetchOrdersRequest } from "./store/orders/actions"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -19,7 +19,7 @@ const App = () => {
   const antIcon = <LoadingOutlined spin />
 
   useEffect(() => {
-    dispatch(fetchOrdersOrder())
+    dispatch(fetchOrdersRequest())
   }, [dispatch])
 
   if (error) {
@@ -45,6 +45,7 @@ const App = () => {
         maxWidth={"80vw"}
         defaultSize={{
           width: "100vh",
+          height: "auto",
         }}
         enable={{
           top: false,

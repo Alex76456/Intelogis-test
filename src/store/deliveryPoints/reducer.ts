@@ -1,13 +1,15 @@
 import { FETCH_DELIVERYPOINTS_REQUEST, FETCH_DELIVERYPOINTS_SUCCESS, FETCH_DELIVERYPOINTS_FAILURE } from "./constants"
 
-const initialState = {
+import { DeliveryPointsActions, DeliveryPointsState } from "./types"
+
+const initialState: DeliveryPointsState = {
   pendingDeliveryPoints: false,
   deliveryPoints: [],
   selectedDeliveryPoint: null,
   error: null,
 }
 
-const deliveryPointsReducer = (state = initialState, action) => {
+const deliveryPointsReducer = (state = initialState, action: DeliveryPointsActions) => {
   switch (action.type) {
     case FETCH_DELIVERYPOINTS_REQUEST:
       return {
