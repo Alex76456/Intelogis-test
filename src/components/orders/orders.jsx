@@ -216,13 +216,7 @@ const Orders = () => {
       title: "Заявка",
       dataIndex: "name",
       key: "name",
-      render: (item, record) => (
-        <div /*className={record._id === selectedOrder?._id ? "row activeRow" : "row"}*/>
-          {item}
-
-          {/* {record._id === selectedOrder?._id && renderPoints(record)} */}
-        </div>
-      ),
+      render: (item, record) => <>{item}</>,
       width: 200,
     },
 
@@ -231,13 +225,7 @@ const Orders = () => {
       dataIndex: "points",
       key: "points",
       width: 400,
-      render: (item, record) => (
-        <div /*className={record._id === selectedOrder?._id ? "row activeRow" : "row"}*/>
-          {/* {item} */}
-          {renderPoints(record)}
-          {/* {record._id === selectedOrder?._id && renderPoints(record)} */}
-        </div>
-      ),
+      render: (item, record) => <>{renderPoints(record)}</>,
     },
   ]
 

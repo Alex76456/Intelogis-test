@@ -13,19 +13,23 @@ import {
 } from "../../store/map/selectors"
 import { fetchPositionsOrder } from "../../store/map/actions"
 
+import leaflet, { LatLngExpression } from "leaflet"
+
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet"
 import { LoadingOutlined } from "@ant-design/icons"
 import { Result, Spin } from "antd"
 import { getSelectedOrderSelector } from "../../store/orders/selectors"
 
-export const Map = () => {
+import { IPoint } from "../../store/orders/types"
+
+export const Map: React.FC = () => {
   const dispatch = useDispatch()
   const order = useSelector(getSelectedOrderSelector)
   const pendingMap = useSelector(getPendingMapSelector)
   const error = useSelector(getErrorSelector)
   const pointsCenter = useSelector(getPointsCenterSelector)
-  const positions = useSelector(getPositionsSelector)
+  const positions: LatLngExpression[][] = useSelector(getPositionsSelector)
 
   const defaultZoom = 13
   const antIcon = <LoadingOutlined spin />
@@ -41,7 +45,7 @@ export const Map = () => {
     }
   }, [order, dispatch])
 
-  const renderPositions = (index, item) => {
+  const renderPositions = (index: number, item: IPoint) => {
     if (positions.length < 1) {
       return null
     }
@@ -57,7 +61,7 @@ export const Map = () => {
   function FlyToCenterMarker() {
     const map = useMap()
     if (pointsCenter !== undefined) {
-      map.flyTo(pointsCenter, map.getZoom())
+      map.flyTo(pointsCenter as LatLngExpression, map.getZoom())
     }
 
     setTimeout(() => map.invalidateSize(), 100)
@@ -88,7 +92,7 @@ export const Map = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {order?.points.map((item, index) => {
+          {order?.points.map((item: IPoint, index: number) => {
             return (
               <div key={`${item.fromCoords.Name}->${item.toCoords.Name}`}>
                 <Marker
