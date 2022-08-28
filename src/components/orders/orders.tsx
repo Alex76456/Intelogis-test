@@ -10,6 +10,8 @@ import { editPoint, editOrder, editOrders, selectOrder } from "../../store/order
 import { getDeliveryPointsSelector } from "../../store/deliveryPoints/selectors"
 import { fetchDeliveryPointsOrder } from "../../store/deliveryPoints/actions"
 
+import { ICoord, IPoint, IOrder } from "../../store/orders/types"
+
 import {
   getEditingPointSelector,
   getEditingOrderSelector,
@@ -31,7 +33,7 @@ const Orders = () => {
   const selectedOrder = useSelector(getSelectedOrderSelector)
 
   // конвертируем данные под таблицу
-  const converterData = (item) => ({
+  const converterData = (item: IOrder) => ({
     _id: item._id,
     key: item.name,
     name: item.name,
@@ -44,13 +46,13 @@ const Orders = () => {
   }, [dispatch])
 
   // handleOnSelectItem и handleOnRow  выбираем заявку
-  const handleOnSelectItem = (item) => {
+  const handleOnSelectItem = (item: IOrder) => {
     if (item._id !== selectedOrder?._id) {
       dispatch(selectOrder({ selectedOrder: item }))
     }
   }
 
-  const handleOnRow = (record) => {
+  const handleOnRow = (record: any) => {
     return {
       onClick: () => {
         handleOnSelectItem(record)
@@ -59,7 +61,7 @@ const Orders = () => {
   }
 
   // начинаем редактирование
-  const handleOnEditPoint = (order) => {
+  const handleOnEditPoint = (order: IOrder) => {
     dispatch(editOrder({ editingOrder: order }))
   }
 
@@ -75,9 +77,9 @@ const Orders = () => {
       return
     }
 
-    const pointIndex = editingOrder.points.findIndex((p) => p._id === editingPoint._id)
+    const pointIndex = editingOrder.points.findIndex((p: IPoint) => p._id === editingPoint._id)
     editingOrder.points.splice(pointIndex, 1, editingPoint)
-    const orderIndex = orders.findIndex((r) => r._id === editingOrder._id)
+    const orderIndex = orders.findIndex((r: IOrder) => r._id === editingOrder._id)
     const editedOrders = [...orders]
     editedOrders.splice(orderIndex, 1, editingOrder)
 
@@ -90,14 +92,14 @@ const Orders = () => {
   }
 
   // клик на выбранную точку для редактировния
-  const handleOnMenuItemClick = (item, point, directionCode) => {
+  const handleOnMenuItemClick = (item: any, point: IPoint, directionCode: string) => {
     if (!editingOrder) {
       return
     }
 
-    const orderIndex = orders.findIndex((order) => order._id === editingOrder._id)
+    const orderIndex = orders.findIndex((order: IOrder) => order._id === editingOrder._id)
     if (orderIndex > -1) {
-      const newCoord = coords.find((coord) => coord._id === Number.parseInt(item.key))
+      const newCoord = coords.find((coord: ICoord) => coord._id === Number.parseInt(item.key))
 
       if (!newCoord) {
         return
@@ -114,16 +116,16 @@ const Orders = () => {
   }
 
   // выбор точек
-  const getMenu = (point, directionCode) => {
+  const getMenu = (point: IPoint, directionCode: string) => {
     return (
       <Menu
         items={coords
           .filter(
-            (coords) =>
+            (coords: ICoord) =>
               (directionCode === fromOreToSettings.FROM && coords._id !== point.toCoords._id) ||
               (directionCode === fromOreToSettings.TO && coords._id !== point.fromCoords._id),
           )
-          .map((item) => {
+          .map((item: ICoord) => {
             return {
               key: item._id,
               label: <div>{`${item.Name} (${item.Lat}, ${item.Lng})`}</div>,
@@ -137,7 +139,7 @@ const Orders = () => {
   }
 
   // точки с дропдауном для выбора новых точек
-  const renderEditPoint = (point) => {
+  const renderEditPoint = (point: IPoint) => {
     const isEdit = true
 
     return (
@@ -162,15 +164,15 @@ const Orders = () => {
     )
   }
 
-  const renderPointCoords = (pointCoord, isEdit) => {
+  const renderPointCoords = (pointCoord: ICoord, isEdit?: boolean) => {
     return (
-      <p key={`point_${pointCoord.Lat}_${pointCoord.Lng}`} className={isEdit && "isEdit"}>
+      <p key={`point_${pointCoord.Lat}_${pointCoord.Lng}`} className={isEdit ? "isEdit" : undefined}>
         <span className="spanText">{pointCoord.Name}</span> ({pointCoord.Lat}, {pointCoord.Lng})
       </p>
     )
   }
 
-  const renderPointsRow = (point) => {
+  const renderPointsRow = (point: IPoint) => {
     return (
       <>
         <div className="pointWrapper">
@@ -186,7 +188,7 @@ const Orders = () => {
   }
 
   // рендер кнопок действий
-  const renderPointOperations = (order) => {
+  const renderPointOperations = (order: IOrder) => {
     if (editingOrder?._id === order._id) {
       return (
         <div className="saveIcons">
@@ -199,9 +201,9 @@ const Orders = () => {
     }
   }
 
-  const renderPoint = (order, point) => {
+  const renderPoint = (order: IOrder, point: IPoint) => {
     return (
-      <div key={`${order.id}_${point.id}`} className="points">
+      <div key={`${order._id}_${point._id}`} className="points">
         <div>{order._id === editingOrder?._id ? renderEditPoint(editingPoint || point) : renderPointsRow(point)}</div>
 
         {renderPointOperations(order)}
@@ -209,14 +211,14 @@ const Orders = () => {
     )
   }
 
-  const renderPoints = (record) => <>{record.points.map((point) => renderPoint(record, point))}</>
+  const renderPoints = (record: any) => <>{record.points.map((point: IPoint) => renderPoint(record, point))}</>
 
   const columns = [
     {
       title: "Заявка",
       dataIndex: "name",
       key: "name",
-      render: (item, record) => <>{item}</>,
+      render: (item: any, record: any) => <>{item}</>,
       width: 200,
     },
 
@@ -225,7 +227,7 @@ const Orders = () => {
       dataIndex: "points",
       key: "points",
       width: 400,
-      render: (item, record) => <>{renderPoints(record)}</>,
+      render: (item: any, record: any) => <>{renderPoints(record)}</>,
     },
   ]
 

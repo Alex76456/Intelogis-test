@@ -13,23 +13,22 @@ import {
 } from "./constants"
 
 export interface ICoord {
-  Id: number
+  _id: number
   Lat: number
   Lng: number
   Name: string
 }
 
 export interface IPoint {
-  id: number
+  _id: number
   fromCoords: ICoord
   toCoords: ICoord
 }
 
 export interface IOrder {
-  id: number
+  _id: number
   name: string
   points: IPoint[]
-  isExpandable: boolean
 }
 
 export interface OrdersState {

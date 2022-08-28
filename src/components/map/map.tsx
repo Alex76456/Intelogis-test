@@ -13,7 +13,7 @@ import {
 } from "../../store/map/selectors"
 import { fetchPositionsOrder } from "../../store/map/actions"
 
-import leaflet, { LatLngExpression } from "leaflet"
+import { LatLngExpression } from "leaflet"
 
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet"
