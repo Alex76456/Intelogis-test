@@ -112,6 +112,16 @@ const Orders = () => {
       }
 
       dispatch(editPoint({ editingPoint: newPoint }))
+
+      // if (editingPoint) {
+      //   const pointIndex = editingOrder.points.findIndex((p: IPoint) => p._id === editingPoint._id)
+      //   const newEditOrder: IOrder = {
+      //     ...editingOrder,
+      //     points: editingOrder.points.splice(pointIndex, 1, editingPoint),
+      //   }
+
+      //   dispatch(editOrder({ editingOrder: newEditOrder }))
+      // }
     }
   }
 

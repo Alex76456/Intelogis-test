@@ -1,17 +1,17 @@
 import { all, call, put, takeLatest, select } from "redux-saga/effects"
-import { getSelectedOrderSelector } from "../orders/selectors"
+import { getEditingPointSelector, getSelectedOrderSelector } from "../orders/selectors"
 
 import { fetchPositionsFailure, fetchPositionsSuccess } from "./actions"
 import { FETCH_POSITIONS_REQUEST } from "./constants"
 
 import { LatLngExpression } from "leaflet"
 
-import { ICoord, IOrder } from "../orders/types"
+import { ICoord, IOrder, IPoint } from "../orders/types"
 
-const getPositions = async (order: IOrder) => {
+const getPositions = async (points: IPoint[]) => {
   const positions: LatLngExpression[][] = []
   const promises: Promise<any>[] = []
-  order?.points.forEach((item) => {
+  points.forEach((item) => {
     promises.push(
       getPositionsByCoords(item.fromCoords, item.toCoords).then((result: any) => {
         if (result !== null && result !== undefined) {
@@ -51,20 +51,21 @@ const getPositionsByCoords = async (coords1: ICoord, coords2: ICoord) => {
   })
 }
 
-const getPointsCenter = (order: IOrder) => {
-  if (order === null || order?.points === null || order?.points.length < 1) {
+const getPointsCenter = (points: IPoint[]) => {
+  if (points === null || points.length < 1) {
     return undefined
   }
 
   return {
-    lat: order.points[0].fromCoords.Lat + (order.points[0].toCoords.Lat - order.points[0].fromCoords.Lat) / 2,
-    lng: order.points[0].fromCoords.Lng + (order.points[0].toCoords.Lng - order.points[0].fromCoords.Lng) / 2,
+    lat: points[0].fromCoords.Lat + (points[0].toCoords.Lat - points[0].fromCoords.Lat) / 2,
+    lng: points[0].fromCoords.Lng + (points[0].toCoords.Lng - points[0].fromCoords.Lng) / 2,
   }
 }
 
 function* fetchPositionsSaga(): any {
   try {
     const order = yield select(getSelectedOrderSelector)
+
     if (order === null) {
       yield put(
         fetchPositionsFailure({
@@ -73,8 +74,10 @@ function* fetchPositionsSaga(): any {
       )
     }
 
-    const response = yield call(getPositions, order as IOrder)
-    const pointsCenter = getPointsCenter(order as IOrder)
+    const newPoint: IPoint = yield select(getEditingPointSelector)
+
+    const response = yield call(getPositions, newPoint ? [newPoint] : order.points)
+    const pointsCenter = getPointsCenter(newPoint ? [newPoint] : order.points)
 
     if (response !== null && response.length > 0) {
       yield put(

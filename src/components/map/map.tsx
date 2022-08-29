@@ -19,7 +19,7 @@ import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet"
 import { LoadingOutlined } from "@ant-design/icons"
 import { Result, Spin } from "antd"
-import { getSelectedOrderSelector } from "../../store/orders/selectors"
+import { getEditingPointSelector, getSelectedOrderSelector } from "../../store/orders/selectors"
 
 import { IPoint } from "../../store/orders/types"
 
@@ -31,6 +31,8 @@ export const Map: React.FC = () => {
   const pointsCenter = useSelector(getPointsCenterSelector)
   const positions: LatLngExpression[][] = useSelector(getPositionsSelector)
 
+  const editingPoint = useSelector(getEditingPointSelector)
+
   const defaultZoom = 13
   const antIcon = <LoadingOutlined spin />
 
@@ -38,12 +40,14 @@ export const Map: React.FC = () => {
 
   const pointIcon = new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })
 
+  // console.log("editingOrder", editingOrder)
+
   // запрашиваем данные при изменении текущего заказа
   useEffect(() => {
     if (order !== null) {
       dispatch(fetchPositionsRequest())
     }
-  }, [order, dispatch])
+  }, [editingPoint, order, dispatch])
 
   const renderPositions = (index: number, item: IPoint) => {
     if (positions.length < 1) {
@@ -92,7 +96,9 @@ export const Map: React.FC = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {order?.points.map((item: IPoint, index: number) => {
+          {order?.points.map((el: IPoint, index: number) => {
+            const item = editingPoint ? editingPoint : el
+
             return (
               <div key={`${item.fromCoords.Name}->${item.toCoords.Name}`}>
                 <Marker
