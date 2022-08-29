@@ -6,7 +6,7 @@ import { FETCH_POSITIONS_REQUEST } from "./constants"
 
 import { LatLngExpression } from "leaflet"
 
-import { ICoord, IOrder, IPoint } from "../orders/types"
+import { ICoord, IPoint } from "../orders/types"
 
 const getPositions = async (points: IPoint[]) => {
   const positions: LatLngExpression[][] = []
