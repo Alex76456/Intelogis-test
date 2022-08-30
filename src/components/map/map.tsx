@@ -13,7 +13,7 @@ import {
 } from "../../store/map/selectors"
 import { fetchPositionsRequest } from "../../store/map/actions"
 
-import { LatLngExpression } from "leaflet"
+import { latLngBounds, LatLngExpression } from "leaflet"
 
 import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet"
@@ -40,8 +40,6 @@ export const Map: React.FC = () => {
 
   const pointIcon = new Icon({ iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 41] })
 
-  // console.log("editingOrder", editingOrder)
-
   // запрашиваем данные при изменении текущего заказа
   useEffect(() => {
     if (order !== null) {
@@ -65,7 +63,16 @@ export const Map: React.FC = () => {
   function FlyToCenterMarker() {
     const map = useMap()
     if (pointsCenter !== undefined) {
-      map.flyTo(pointsCenter as LatLngExpression, map.getZoom())
+      // map.flyTo(pointsCenter as LatLngExpression, map.getZoom())
+
+      let markerBounds = latLngBounds([])
+      order?.points.forEach((el: IPoint, index: number) => {
+        const item = editingPoint ? editingPoint : el
+
+        markerBounds.extend([item.fromCoords.Lat, item.fromCoords.Lng])
+        markerBounds.extend([item.toCoords.Lat, item.toCoords.Lng])
+      })
+      markerBounds.isValid() && map.fitBounds(markerBounds)
     }
 
     setTimeout(() => map.invalidateSize(), 100)
